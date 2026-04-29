@@ -1,11 +1,14 @@
-# Version 1.1.0 - improved endpoints
+# Version 2.0.0 - Kubernetes ready
 from flask import Flask, jsonify
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({"message": "Welcome to ACEest Fitness & Gym"})
+    return jsonify({
+        "message": "Welcome to ACEest Fitness & Gym",
+        "version": "2.0.0"
+    })
 
 @app.route("/members")
 def members():
@@ -28,6 +31,10 @@ def classes():
         ]
     }
     return jsonify(data)
+
+@app.route("/health")
+def health():
+    return jsonify({"status": "healthy", "version": "2.0.0"})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
