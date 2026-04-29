@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acest-fitness-a
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: acest-fitness-ab
+      version: a
+  template:
+    metadata:
+      labels:
+        app: acest-fitness-ab
+        version: a
+    spec:
+      containers:
+      - name: acest-fitness
+        image: amruta111/acest-fitness:v1.0.0
+        ports:
+        - containerPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acest-fitness-b
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: acest-fitness-ab
+      version: b
+  template:
+    metadata:
+      labels:
+        app: acest-fitness-ab
+        version: b
+    spec:
+      containers:
+      - name: acest-fitness
+        image: amruta111/acest-fitness:v2.0.0
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: acest-fitness-ab-service
+spec:
+  selector:
+    app: acest-fitness-ab
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 5000
+    nodePort: 30005
