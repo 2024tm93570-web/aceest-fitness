@@ -5,6 +5,7 @@ pipeline {
         DOCKERHUB_USERNAME = credentials('dockerhub-username')
         DOCKERHUB_TOKEN    = credentials('dockerhub-token')
         IMAGE_NAME         = 'acest-fitness'
+        PYTHON             = '"C:\\Users\\amrut\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe"'
     }
 
     stages {
@@ -19,23 +20,23 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing Python dependencies...'
-                bat 'python -m pip install --upgrade pip'
-                bat 'python -m pip install -r requirements.txt'
+                bat "%PYTHON% -m pip install --upgrade pip"
+                bat "%PYTHON% -m pip install -r requirements.txt"
             }
         }
 
         stage('Lint') {
             steps {
                 echo 'Running Flake8 lint check...'
-                bat 'python -m pip install flake8'
-                bat 'python -m flake8 . || exit 0'
+                bat "%PYTHON% -m pip install flake8"
+                bat "%PYTHON% -m flake8 . || exit 0"
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running Pytest...'
-                bat 'python -m pytest'
+                bat "%PYTHON% -m pytest"
             }
         }
 
